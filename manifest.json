@@ -4,7 +4,11 @@
   "version": "0.1.0",
   "description": "Bulk download VAT invoices and reservation receipts from your Airbnb hosting page",
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "tabs",
+    "downloads",
+    "debugger",
+    "scripting"
   ],
   "host_permissions": [
     "https://www.airbnb.pt/*",
@@ -22,6 +26,9 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {

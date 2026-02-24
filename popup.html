@@ -9,8 +9,33 @@
 <body>
   <div class="container">
     <h1>GetBnBInvoice</h1>
-    <p class="status">Extension loaded successfully!</p>
-    <p class="hint">Navigate to your Airbnb reservations page to get started.</p>
+    <div id="not-on-airbnb" class="message" style="display:none;">
+      <p class="hint">Navigate to your Airbnb reservations page to get started.</p>
+    </div>
+    <div id="reservations-area" style="display:none;">
+      <div class="toolbar">
+        <p class="status" id="status"></p>
+        <div class="toolbar-actions">
+          <button id="select-all-btn" class="text-btn">Select all</button>
+          <button id="deselect-all-btn" class="text-btn">Deselect all</button>
+        </div>
+      </div>
+      <div id="reservation-list"></div>
+      <div class="btn-row">
+        <button id="download-btn" class="download-btn">Download selected</button>
+        <button id="cancel-btn" class="cancel-btn" style="display:none;">Cancel</button>
+      </div>
+      <div id="progress-area" style="display:none;">
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <p id="progress" class="progress"></p>
+      </div>
+    </div>
+    <div id="loading" class="message">
+      <p class="hint">Checking page...</p>
+    </div>
   </div>
+  <script src="popup.js"></script>
 </body>
 </html>

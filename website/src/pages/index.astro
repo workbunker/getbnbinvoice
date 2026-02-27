@@ -50,7 +50,7 @@ import Layout from "../layouts/Layout.astro";
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          Get Started &mdash; 14 Free Downloads
+          Get Started &mdash; 15 Free Downloads
         </a>
       </div>
       <p class="hero-note">No credit card required &middot; Works with all EU Airbnb domains</p>
@@ -104,7 +104,7 @@ import Layout from "../layouts/Layout.astro";
       </div>
       <div class="trust-divider"></div>
       <div class="trust-item">
-        <span class="trust-number">14</span>
+        <span class="trust-number">15</span>
         <span class="trust-label">Free Downloads to Start</span>
       </div>
     </div>
@@ -136,7 +136,7 @@ import Layout from "../layouts/Layout.astro";
           </div>
           <div class="timeline-connector"></div>
           <h3>Activate</h3>
-          <p>Enter your license key in the extension popup. Get 14 free downloads to try it.</p>
+          <p>Enter your license key in the extension popup. Get 15 free downloads to try it.</p>
         </div>
         <div class="timeline-step">
           <div class="timeline-icon">
@@ -286,17 +286,26 @@ import Layout from "../layouts/Layout.astro";
       <p class="section-subtitle">Buy credits when you need them. They never expire.</p>
 
       <div class="pricing-layout">
-        <!-- Free trial callout -->
+        <!-- Free trial registration -->
         <div class="pricing-free">
-          <div class="pricing-free-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v20M2 12h20" />
-            </svg>
+          <div class="pricing-free-content">
+            <div class="pricing-free-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v20M2 12h20" />
+              </svg>
+            </div>
+            <div>
+              <strong>Start with 15 free downloads</strong>
+              <p>Enter your email to get a free license key with 15 invoice downloads.</p>
+            </div>
           </div>
-          <div>
-            <strong>Start with 14 free downloads</strong>
-            <p>No payment needed. Register and try the extension with 14 free invoice downloads.</p>
-          </div>
+          <form id="register-form" class="register-form">
+            <div class="register-input-wrap">
+              <input type="email" id="register-email" placeholder="your@email.com" required />
+              <button type="submit" class="btn btn-teal" id="register-btn">Get Free Key</button>
+            </div>
+            <p id="register-msg" class="register-msg"></p>
+          </form>
         </div>
 
         <div class="pricing-grid">
@@ -353,7 +362,6 @@ import Layout from "../layouts/Layout.astro";
             <a href="#" class="btn btn-outline-coral btn-block">Buy Agency</a>
           </div>
         </div>
-        <p class="pricing-note">All prices include VAT. You may enter your EU VAT ID at checkout for reverse charge.</p>
       </div>
     </div>
   </section>
@@ -397,15 +405,9 @@ import Layout from "../layouts/Layout.astro";
             </p>
           </details>
           <details class="faq-item">
-            <summary>Can I get a refund?</summary>
-            <p>
-              Yes. Contact us within 14 days of purchase for a full refund, no questions asked.
-            </p>
-          </details>
-          <details class="faq-item">
             <summary>How do I get my free trial?</summary>
             <p>
-              Register with your email and you'll receive 14 free credits instantly. No credit card needed.
+              Register with your email and you'll receive 15 free credits instantly. No credit card needed.
             </p>
           </details>
         </div>
@@ -449,6 +451,58 @@ import Layout from "../layouts/Layout.astro";
     </div>
   </footer>
 </Layout>
+
+<script>
+  const form = document.getElementById("register-form") as HTMLFormElement;
+  const emailInput = document.getElementById("register-email") as HTMLInputElement;
+  const btn = document.getElementById("register-btn") as HTMLButtonElement;
+  const msg = document.getElementById("register-msg") as HTMLParagraphElement;
+
+  const API_URL = "https://europe-west1-getbnbinvoice.cloudfunctions.net/register";
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    btn.disabled = true;
+    btn.textContent = "Registering...";
+    msg.textContent = "";
+    msg.className = "register-msg";
+
+    try {
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        msg.textContent = `Your key: ${data.key} — check your email! You have ${data.credits} free downloads.`;
+        msg.className = "register-msg success";
+        emailInput.value = "";
+      } else if (data.error === "already_registered") {
+        msg.textContent = data.key
+          ? `Already registered! Your key: ${data.key}`
+          : "This email is already registered. Check your email for the key.";
+        msg.className = "register-msg success";
+      } else if (data.error === "too_many_registrations") {
+        msg.textContent = "Too many registrations. Please try again later.";
+        msg.className = "register-msg error";
+      } else {
+        msg.textContent = data.error || "Registration failed. Please try again.";
+        msg.className = "register-msg error";
+      }
+    } catch {
+      msg.textContent = "Network error. Please try again.";
+      msg.className = "register-msg error";
+    }
+
+    btn.disabled = false;
+    btn.textContent = "Get Free Key";
+  });
+</script>
 
 <style>
   /* ---- Navbar ---- */
@@ -1125,17 +1179,21 @@ import Layout from "../layouts/Layout.astro";
   }
 
   .pricing-free {
-    display: flex;
-    align-items: center;
-    gap: 16px;
     background: var(--teal-light);
     border: 1px solid rgba(0, 166, 153, 0.2);
     border-radius: 12px;
-    padding: 20px 24px;
+    padding: 24px;
     margin-bottom: 32px;
-    max-width: 560px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+  }
+
+  .pricing-free-content {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
   }
 
   .pricing-free-icon {
@@ -1166,6 +1224,62 @@ import Layout from "../layouts/Layout.astro";
     font-size: 13px;
     color: var(--gray-500);
     margin: 0;
+  }
+
+  .register-form {
+    margin: 0;
+  }
+
+  .register-input-wrap {
+    display: flex;
+    gap: 8px;
+  }
+
+  .register-input-wrap input {
+    flex: 1;
+    padding: 10px 14px;
+    border: 1.5px solid rgba(0, 166, 153, 0.3);
+    border-radius: 8px;
+    font-size: 14px;
+    background: var(--white);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .register-input-wrap input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0, 166, 153, 0.1);
+    outline: none;
+  }
+
+  .btn-teal {
+    background: var(--teal);
+    color: var(--white);
+    padding: 10px 20px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .btn-teal:hover {
+    background: #008f84;
+  }
+
+  .btn-teal:disabled {
+    background: #88ccc7;
+    cursor: not-allowed;
+  }
+
+  .register-msg {
+    font-size: 13px;
+    margin-top: 8px;
+    min-height: 20px;
+  }
+
+  .register-msg.success {
+    color: var(--teal);
+  }
+
+  .register-msg.error {
+    color: var(--coral);
   }
 
   .pricing-grid {

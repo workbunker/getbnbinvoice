@@ -31,54 +31,26 @@
 
     <div id="activation" style="display:none;">
       <div class="activation-card">
-        <div id="register-view">
-          <div class="activation-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-            </svg>
-          </div>
-          <p>Enter your email to get <strong>15 free credits</strong>:</p>
-          <div class="input-group">
-            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="4" width="20" height="16" rx="2"/>
-              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-            </svg>
-            <input type="email" id="email-input" placeholder="your@email.com" />
-          </div>
-          <button id="register-btn" class="primary-btn">
-            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v20M2 12h20"/>
-            </svg>
-            Get free credits
-          </button>
-          <p id="register-error" class="error-msg" style="display:none;"></p>
-          <div class="divider"><span>or</span></div>
-          <p class="toggle-link"><a href="#" id="show-key-input">I already have a license key</a></p>
+        <div class="activation-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+          </svg>
         </div>
-        <div id="key-view" style="display:none;">
-          <div class="activation-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-            </svg>
-          </div>
-          <p>Enter your license key:</p>
-          <div class="input-group">
-            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-            </svg>
-            <input type="text" id="key-input" placeholder="GBNB-XXXX-XXXX-XXXX" />
-          </div>
-          <button id="activate-btn" class="primary-btn">
-            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"/>
-            </svg>
-            Activate
-          </button>
-          <p id="key-error" class="error-msg" style="display:none;"></p>
-          <div class="divider"><span>or</span></div>
-          <p class="toggle-link"><a href="#" id="show-register">Register with email instead</a></p>
+        <p>Enter your license key to activate the extension:</p>
+        <div class="input-group">
+          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+          </svg>
+          <input type="text" id="key-input" placeholder="GBNB-XXXX-XXXX-XXXX" />
         </div>
+        <button id="activate-btn" class="primary-btn">
+          <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Activate
+        </button>
+        <p id="key-error" class="error-msg" style="display:none;"></p>
+        <p class="toggle-link"><a href="https://getbnbinvoice.com/#pricing" target="_blank">Get your key at getbnbinvoice.com</a></p>
       </div>
     </div>
 

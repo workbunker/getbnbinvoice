@@ -1,4 +1,7 @@
 .DS_Store
 *.zip
-functions/node_modules/
+node_modules/
 .firebase/
+dist/
+.env
+.env.*

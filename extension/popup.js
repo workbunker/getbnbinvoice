@@ -2,7 +2,6 @@ const MAX_BATCH_SIZE = 25;
 
 // Cloud Functions URLs — update after deploying
 const API_URLS = {
-  register: "https://europe-west1-getbnbinvoice.cloudfunctions.net/register",
   checkCredit: "https://europe-west1-getbnbinvoice.cloudfunctions.net/checkCredit",
 };
 
@@ -60,63 +59,7 @@ function updateCreditBadge(count) {
 }
 
 function setupActivation() {
-  document.getElementById("register-btn").addEventListener("click", handleRegister);
   document.getElementById("activate-btn").addEventListener("click", handleActivateKey);
-  document.getElementById("show-key-input").addEventListener("click", (e) => {
-    e.preventDefault();
-    document.getElementById("register-view").style.display = "none";
-    document.getElementById("key-view").style.display = "block";
-  });
-  document.getElementById("show-register").addEventListener("click", (e) => {
-    e.preventDefault();
-    document.getElementById("key-view").style.display = "none";
-    document.getElementById("register-view").style.display = "block";
-  });
-}
-
-async function handleRegister() {
-  const btn = document.getElementById("register-btn");
-  const errorEl = document.getElementById("register-error");
-  const email = document.getElementById("email-input").value.trim();
-
-  if (!email || !email.includes("@")) {
-    errorEl.textContent = "Please enter a valid email.";
-    errorEl.style.display = "block";
-    return;
-  }
-
-  btn.disabled = true;
-  const btnOriginal = btn.innerHTML;
-  btn.textContent = "Registering...";
-  errorEl.style.display = "none";
-
-  try {
-    const result = await apiCall("register", { email });
-    if (result.error === "too_many_registrations") {
-      errorEl.textContent = "Too many registrations. Please try again later.";
-      errorEl.style.display = "block";
-    } else if (result.error === "already_registered") {
-      if (result.key) {
-        await chrome.storage.local.set({ licenseKey: result.key });
-        location.reload();
-      } else {
-        errorEl.textContent = "This email is already registered. Check your email for the key.";
-        errorEl.style.display = "block";
-      }
-    } else if (result.success) {
-      await chrome.storage.local.set({ licenseKey: result.key });
-      location.reload();
-    } else {
-      errorEl.textContent = result.error || "Registration failed.";
-      errorEl.style.display = "block";
-    }
-  } catch (e) {
-    errorEl.textContent = "Network error. Please try again.";
-    errorEl.style.display = "block";
-  }
-
-  btn.disabled = false;
-  btn.innerHTML = btnOriginal;
 }
 
 async function handleActivateKey() {

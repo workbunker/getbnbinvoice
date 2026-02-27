@@ -6,6 +6,27 @@ const PAGE_LOAD_TIMEOUT = 15000;
 const MAX_RETRIES = 1;
 let abortRequested = false;
 
+// Credit system — update URLs after deploying
+const API_URLS = {
+  useCredit: "https://europe-west1-getbnbinvoice.cloudfunctions.net/useCredit",
+};
+
+async function useCredit(reservationCode) {
+  const { licenseKey } = await chrome.storage.local.get("licenseKey");
+  if (!licenseKey) throw new Error("no_license");
+  const res = await fetch(API_URLS.useCredit, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ key: licenseKey, reservation_code: reservationCode }),
+  });
+  if (!res.ok && res.status >= 500) throw new Error("server_error");
+  const data = await res.json();
+  if (data.error === "no_credits") throw new Error("no_credits");
+  if (data.error === "invalid_key") throw new Error("invalid_key");
+  if (data.error) throw new Error(data.error);
+  return data.remaining;
+}
+
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "printToPDF") {
     handlePrintToPDF(message.code, message.domain)
@@ -68,6 +89,31 @@ async function handleBatchDownload(codes, domain) {
         } else {
           result = { success: false, error: err.message };
         }
+      }
+    }
+
+    // Deduct credit only after successful download
+    if (result.success) {
+      try {
+        const remaining = await useCredit(code);
+        notifyPopup({ action: "creditUpdate", remaining });
+      } catch (creditErr) {
+        if (creditErr.message === "no_credits") {
+          // Download succeeded but can't deduct — still count it (user got a freebie)
+          results.push({ code, ...result });
+          const succeeded = results.filter((r) => r.success).length;
+          notifyPopup({
+            action: "batchComplete",
+            total,
+            succeeded,
+            failed: 0,
+            errors: [],
+            error: `Out of credits after ${i + 1} of ${total} reservations`,
+          });
+          return { success: true, total: i + 1, succeeded, failed: 0, results };
+        }
+        // Other credit errors — download succeeded, log warning but count as success
+        console.warn(`[GetBnBInvoice] Credit deduction failed for ${code}: ${creditErr.message}`);
       }
     }
     results.push({ code, ...result });

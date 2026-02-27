@@ -8,11 +8,14 @@
     "tabs",
     "downloads",
     "debugger",
-    "scripting"
+    "scripting",
+    "storage"
   ],
   "host_permissions": [
     "https://www.airbnb.pt/*",
-    "https://www.airbnb.com/*"
+    "https://www.airbnb.com/*",
+    "https://*.cloudfunctions.net/*",
+    "https://*.run.app/*"
   ],
   "action": {
     "default_popup": "popup.html",

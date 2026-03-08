@@ -29,28 +29,67 @@
       </div>
     </header>
 
-    <div id="activation" style="display:none;">
-      <div class="activation-card">
-        <div class="activation-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-          </svg>
+    <div id="intro" style="display:none;">
+      <div class="intro-card">
+        <p class="intro-tagline">Download your Airbnb VAT invoices in bulk.</p>
+
+        <div class="intro-mockup">
+          <div class="mockup-row">
+            <span class="mockup-check checked"></span>
+            <span class="mockup-code">HMQXR7T2D6</span>
+            <span class="mockup-date">Feb 12</span>
+            <span class="mockup-amount">&euro;159.00</span>
+          </div>
+          <div class="mockup-row">
+            <span class="mockup-check checked"></span>
+            <span class="mockup-code">HM85FTHAWS</span>
+            <span class="mockup-date">Feb 8</span>
+            <span class="mockup-amount">&euro;214.00</span>
+          </div>
+          <div class="mockup-row">
+            <span class="mockup-check checked"></span>
+            <span class="mockup-code">HMKN94PE2L</span>
+            <span class="mockup-date">Feb 3</span>
+            <span class="mockup-amount">&euro;187.50</span>
+          </div>
+          <div class="mockup-row">
+            <span class="mockup-check"></span>
+            <span class="mockup-code">HM2WRQJ4PF</span>
+            <span class="mockup-date">Jan 28</span>
+            <span class="mockup-amount">&euro;92.00</span>
+          </div>
+          <div class="mockup-bar">
+            <div class="mockup-bar-fill"></div>
+          </div>
+          <div class="mockup-status">Downloading 2 of 3...</div>
         </div>
-        <p>Enter your license key to activate the extension:</p>
-        <div class="input-group">
-          <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
-          </svg>
-          <input type="text" id="key-input" placeholder="GBNB-XXXX-XXXX-XXXX" />
-        </div>
-        <button id="activate-btn" class="primary-btn">
+
+        <p class="intro-free">15 free credits to get started.</p>
+
+        <a href="https://getbnbinvoice.com/#pricing" target="_blank" class="primary-btn">
           <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="20 6 9 17 4 12"/>
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
           </svg>
-          Activate
-        </button>
-        <p id="key-error" class="error-msg" style="display:none;"></p>
-        <p class="toggle-link"><a href="https://getbnbinvoice.com/#pricing" target="_blank">Get your key at getbnbinvoice.com</a></p>
+          Get your free key
+        </a>
+
+        <button id="have-key-btn" class="link-btn">I already have a license key</button>
+
+        <div id="key-area" style="display:none;">
+          <div class="input-group">
+            <svg class="input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="m21 2-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0 3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+            </svg>
+            <input type="text" id="key-input" placeholder="GBNB-XXXX-XXXX-XXXX" />
+          </div>
+          <button id="activate-btn" class="primary-btn">
+            <svg class="icon-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            Activate
+          </button>
+          <p id="key-error" class="error-msg" style="display:none;"></p>
+        </div>
       </div>
     </div>
 
@@ -121,6 +160,12 @@
           <div class="progress-bar" id="progress-bar"></div>
         </div>
         <p id="progress" class="progress"></p>
+        <p id="dont-close-warning" class="dont-close-warning">
+          <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Don't close this popup while downloading.
+        </p>
       </div>
     </div>
 
@@ -130,6 +175,10 @@
         <p class="hint">Checking page...</p>
       </div>
     </div>
+
+    <footer class="disclaimer">
+      This extension is not affiliated with Airbnb. Airbnb is a trademark of Airbnb, Inc.
+    </footer>
   </div>
   <script src="popup.js"></script>
 </body>

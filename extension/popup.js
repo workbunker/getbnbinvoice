@@ -23,8 +23,8 @@ async function init() {
 
   if (!licenseKey) {
     document.getElementById("loading").style.display = "none";
-    document.getElementById("activation").style.display = "block";
-    setupActivation();
+    document.getElementById("intro").style.display = "block";
+    setupIntro();
     return;
   }
 
@@ -34,8 +34,8 @@ async function init() {
     if (result.error === "invalid_key") {
       await chrome.storage.local.remove("licenseKey");
       document.getElementById("loading").style.display = "none";
-      document.getElementById("activation").style.display = "block";
-      setupActivation();
+      document.getElementById("intro").style.display = "block";
+      setupIntro();
       return;
     }
     updateCreditBadge(result.remaining);
@@ -44,6 +44,7 @@ async function init() {
       document.getElementById("no-credits").style.display = "block";
       return;
     }
+
   } catch (e) {
     // API error — continue, credits checked at download time
     console.error("[GetBnBInvoice] Credit check failed:", e);
@@ -58,7 +59,16 @@ function updateCreditBadge(count) {
   badge.style.display = "flex";
 }
 
-function setupActivation() {
+function setupIntro() {
+  const haveKeyBtn = document.getElementById("have-key-btn");
+  const keyArea = document.getElementById("key-area");
+
+  haveKeyBtn.addEventListener("click", () => {
+    haveKeyBtn.style.display = "none";
+    keyArea.style.display = "block";
+    document.getElementById("key-input").focus();
+  });
+
   document.getElementById("activate-btn").addEventListener("click", handleActivateKey);
 }
 
@@ -258,6 +268,7 @@ async function checkPageAndRender() {
           progressBar.style.width = "100%";
           progressBar.classList.remove("animating");
           progressBar.classList.add("complete");
+          document.getElementById("dont-close-warning").style.display = "none";
           if (message.error) {
             progress.innerHTML = `Stopped: ${message.error} (${message.succeeded} of ${message.total} completed)`;
           } else if (message.failed > 0) {

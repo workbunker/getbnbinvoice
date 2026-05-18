@@ -5,3 +5,9 @@ node_modules/
 dist/
 .env
 .env.*
+
+# Claude Code per-user config
+.claude/
+
+# Firebase CLI debug logs
+firebase-debug.log
